@@ -63,6 +63,10 @@ int main(void)
 			{
 				BEEP = 0;
 				LED = 1;
+				TxBuf[1] = 0x00;
+				TxBuf[2] = 0x00;
+				TxBuf[3] = 0x00;
+				TxBuf[4] = 0x00;
 				TxBuf[3] = 3;
 				nRF24L01_TxPacket(TxBuf);
 				TxBuf[3] = 0; //发送报警指令
