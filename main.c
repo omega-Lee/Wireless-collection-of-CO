@@ -49,12 +49,32 @@ int main(void)
 	TxBuf[3] = 0x00;
 	TxBuf[4] = 0x00;
 
-	OLED_ShowString(0, 0, "Receive", 16);
-	OLED_ShowString(0, 2, "Time:", 16);
-
+	OLED_ShowString(0, 0, "Transmit 2", 16);
+	OLED_ShowString(0, 2, "Safety", 16);
 	while (1)
 	{
-		OLED_ShowString(0, 0, "Receive", 16);
+		OLED_ShowString(0, 0, "Transmit 2", 16);
+
+		//从机一氧化碳部分程序
+		if (MQ7_DOUT == 0) //当浓度高于设定值时 ，执行条件函数
+		{
+			//delay();
+			if (MQ7_DOUT == 0) //确定 浓度高于设定值时 ，执行条件函数
+			{
+				BEEP = 0;
+				LED = 1;
+				TxBuf[3] = 3;
+				nRF24L01_TxPacket(TxBuf);
+				TxBuf[3] = 0; //发送报警指令
+				OLED_ShowString(0, 2, "Danger", 16);
+			}
+		}
+		else
+		{
+			BEEP = 1;
+			LED = 0;
+			OLED_ShowString(0, 2, "Safety", 16);
+		}
 
 		//按键发送测试
 		if (key2 == 0)
@@ -62,15 +82,14 @@ int main(void)
 			TxBuf[1] = 0x00;
 			TxBuf[2] = 0x00;
 			TxBuf[3] = 0x00;
-			TxBuf[4] = 0x00;
-			TxBuf[5] = 5;
+			TxBuf[4] = 4;
 
 			nRF24L01_TxPacket(TxBuf);
-			TxBuf[5] = 0x00;
+			TxBuf[4] = 0x00;
 
 			LED = 1;
 			BEEP = 0;
-			OLED_ShowString(0, 0, "Receive Test", 16);
+			OLED_ShowString(0, 4, "Tx1 Test", 16);
 		}
 		else
 		{
@@ -85,6 +104,7 @@ int main(void)
 		//			SendSafe(); //发送安全指令
 		//		}
 
+		//接收模式
 		SetRX_Mode();
 
 		RxBuf[1] = 0x00;
@@ -96,56 +116,19 @@ int main(void)
 		Delay(1000);
 		nRF24L01_RxPacket(RxBuf);
 
-		if (RxBuf[1] | RxBuf[2] | RxBuf[3] | RxBuf[4])
+		if (RxBuf[5])
 		{
-			if (RxBuf[1] == 1) //从机报警
+			if (RxBuf[5] == 5) //按键测试
 			{
-				BEEP = 0;
 				LED = 1;
-				OLED_ShowString(0, 4, "Alert 1", 16);
+				BEEP = 0;
 			}
 			else
 			{
 				LED = 0;
 				BEEP = 1;
 			}
-
-			if (RxBuf[2] == 2) //从机按键1测试
-			{
-				BEEP = 0;
-				LED = 1;
-				OLED_ShowString(0, 4, "Test Alert 1", 16);
-			}
-			else
-			{
-				LED = 0;
-				BEEP = 1;
-			}
-
-			if (RxBuf[3] == 3) //如果是2就报警
-			{
-				BEEP = 0;
-				LED = 1;
-				OLED_ShowString(0, 6, "Alert 2", 16);
-			}
-			else
-			{
-				LED = 0;
-				BEEP = 1;
-			}
-			if (RxBuf[4] == 4) //从机按键2测试
-			{
-				BEEP = 0;
-				LED = 1;
-				OLED_ShowString(0, 6, "Test Alert 2", 16);
-			}
-			else
-			{
-				LED = 0;
-				BEEP = 1;
-			}
-
-			//Delay(6000);
+			Delay(6000);
 		}
 
 		RxBuf[1] = 0x00;
