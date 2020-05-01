@@ -51,11 +51,9 @@ int main(void)
 
 	OLED_ShowString(0, 0, "Transmit 2", 16);
 	OLED_ShowString(0, 2, "Safety", 16);
-    OLED_ShowString(0, 4, "Time:", 16)
-	while (1)
+	 while (1)
 	{
 		OLED_ShowString(0, 0, "Transmit 2", 16);
-		OLED_ShowString(0, 4, "Time:", 16);
 
 		//从机一氧化碳部分程序
 		if (MQ7_DOUT == 0) //当浓度高于设定值时 ，执行条件函数
@@ -91,6 +89,7 @@ int main(void)
 
 			LED = 1;
 			BEEP = 0;
+			OLED_ShowString(0, 4, "Tx1 Test", 16);
 		}
 		else
 		{
@@ -105,7 +104,7 @@ int main(void)
 		//			SendSafe(); //发送安全指令
 		//		}
 
-        //接收模式
+		//接收模式
 		SetRX_Mode();
 
 		RxBuf[1] = 0x00;
