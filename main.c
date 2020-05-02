@@ -3,6 +3,7 @@
 #include "bmp.h"
 #include "24L01.h"
 #include "ds1302.h"
+#include "24C02.h"
 
 #define uchar unsigned char //宏定义无符号字符型
 #define uint unsigned int	//宏定义无符号整型
@@ -19,6 +20,11 @@ unsigned char TxBuf[10] = {0};
 unsigned char RxBuf[10] = {0};
 
 uchar DisplayData[12];
+uchar firstAddr = 0;
+uchar checkAddr = 0;
+uchar row = 0;
+
+int i;
 
 void delay() //延时程序
 {
@@ -79,8 +85,6 @@ int main(void)
 	OLED_ShowString(0, 0, "Receive", 16);
 	//OLED_ShowString(0, 2, "20/05/01/12/30", 16);
 
-	
-
 	while (1)
 	{
 		datapros();
@@ -131,12 +135,55 @@ int main(void)
 			BEEP = 1;
 		}
 
-		//手动取消报警
-		//		if (key3 == 0)
-		//		{
-		//			BEEP = 1;
-		//			SendSafe(); //发送安全指令
-		//		}
+		//查看24C02内存记录
+		if (key3 == 0)
+		{
+			Delay_1ms(100);
+			while (1)
+			{
+				if (key3 == 0)
+				{
+
+					OLED_Clear();
+
+					//Write_24C02(1, 1);
+					//					checkAddr=Read_24C02(1);
+					BEEP = 0;
+					Delay_1ms(300);
+					BEEP = 1;
+
+					//OLED_ShowNum(0, 2, 1, 1, 16);
+
+					//				row=checkAddr/11;
+
+					//				   for(i=0;i<6;i+=2)
+					//				{
+
+					//					OLED_ShowNum(0, 2, DisplayData[11], 1, 16); //年
+					//					OLED_ShowNum(8, 2, DisplayData[10], 1, 16);
+					//					OLED_ShowString(16, 2, "/", 16);
+					//
+					//					OLED_ShowNum(24, 2, DisplayData[9], 1, 16); //月
+					//					OLED_ShowNum(32, 2, DisplayData[8], 1, 16);
+					//
+					//					OLED_ShowNum(40, 2, DisplayData[7], 1, 16); //日
+					//					OLED_ShowNum(48, 2, DisplayData[6], 1, 16);
+					//					OLED_ShowString(56, 2, "/", 16);
+					//
+					//					OLED_ShowNum(64, 2, DisplayData[5], 1, 16); //时
+					//					OLED_ShowNum(72, 2, DisplayData[4], 1, 16);
+					//					OLED_ShowString(80, 2, ":", 16);
+					//
+					//					OLED_ShowNum(88, 2, DisplayData[3], 1, 16); //分
+					//					OLED_ShowNum(96, 2, DisplayData[2], 1, 16);
+					//					OLED_ShowString(104, 2, "/", 16);
+					//
+					//					OLED_ShowNum(112, 2, DisplayData[1], 1, 16); //秒
+					//					OLED_ShowNum(120, 2, DisplayData[0], 1, 16);
+					//				}
+				}
+			}
+		}
 
 		SetRX_Mode();
 
@@ -156,6 +203,15 @@ int main(void)
 				BEEP = 0;
 				LED = 1;
 				OLED_ShowString(0, 4, "Alert 1", 16);
+
+				//				firstAddr = Read_24C02(0);
+				//				for (i = 1; i <= 10; ++i)
+				//				{
+				//					Write_24C02(firstAddr + i, DisplayData[12 - i]);
+				//				}
+				//				Write_24C02(firstAddr + 11, 1);
+				//				firstAddr += 12;
+				//				Write_24C02(0, firstAddr);
 			}
 			else
 			{
