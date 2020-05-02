@@ -58,6 +58,7 @@ int main(void)
 	OLED_Init();
 	OLED_Clear();
 	init_NRF24L01();
+	Ds1302Init();
 
 	BEEP = 0;
 	LED = 1;
@@ -78,7 +79,7 @@ int main(void)
 	OLED_ShowString(0, 0, "Receive", 16);
 	//OLED_ShowString(0, 2, "20/05/01/12/30", 16);
 
-	Ds1302Init();
+	
 
 	while (1)
 	{
@@ -99,7 +100,7 @@ int main(void)
 
 		OLED_ShowNum(64, 2, DisplayData[5], 1, 16); //时
 		OLED_ShowNum(72, 2, DisplayData[4], 1, 16);
-		OLED_ShowString(80, 2, "/", 16);
+		OLED_ShowString(80, 2, ":", 16);
 
 		OLED_ShowNum(88, 2, DisplayData[3], 1, 16); //分
 		OLED_ShowNum(96, 2, DisplayData[2], 1, 16);
