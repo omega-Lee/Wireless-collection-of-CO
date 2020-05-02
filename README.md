@@ -1,6 +1,6 @@
 # Wireless-collection-of-CO
 # 基于STC单片机的一氧化碳无线采集系统
-# 持续更新...
+
 ---
 ## 使用部件：
 + ### 主控：    stc12系列单片机
@@ -22,5 +22,8 @@
 ---
 ### 引脚设置在对应的头文件里面。
 ---
-## 等项目完全结束就会上传PCB文件
+
+![image1](https://github.com/omega-Lee/Wireless-collection-of-CO/blob/master/image/image1.jpg "image1")  
+![image2](https://github.com/omega-Lee/Wireless-collection-of-CO/blob/master/image/image2.jpg "image2")
+
 ### 欢迎给小星星哦:kissing_heart::kissing_heart::kissing_heart:
