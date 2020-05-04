@@ -1,4 +1,4 @@
-# Wireless-collection-of-CO
+# Wireless-ollection-Of-CO
 # 基于STC单片机的一氧化碳无线采集系统
 
 ---
